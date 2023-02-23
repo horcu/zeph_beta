@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -6,15 +7,15 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:zeph_beta/enums/PrimaryGoal.dart';
 import 'package:zeph_beta/models/zeph_user.dart';
+import 'package:zeph_beta/pages/dashboard.dart';
 import 'package:zeph_beta/services/db_service.dart';
+import 'package:zeph_beta/state/dashboard_state.dart';
 import 'package:zeph_beta/state/zeph_user_state.dart';
 import '../app_lifecycle/app_lifecycle.dart';
 import '../enums/gender.dart';
 import '../helpers/parts_builder.dart';
 import '../helpers/theme_builder.dart';
 import '../models/credentials.dart';
-import '../screens/app_tiles.dart';
-import '../screens/device_screen.dart';
 import '../state/onboarding_stepper_state.dart';
 import '../stepper/models/zeph_step.dart';
 import '../stepper/models/zeph_stepper_config.dart';
@@ -117,6 +118,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               return ZephUserState();
             },
           ),
+              ChangeNotifierProvider(
+                create: (context) {
+                  return DashboardState();
+                },
+              ),
         ],
             child: FutureBuilder(
                 future: checkPermissions(),
@@ -165,7 +171,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                       "assets/images/bottomleft.png"),
                                 ),
                               ),
-                            ])));
+                            ])),);
                   } else {
                     return Container(
                         color: ThemeBuilder.forest,
@@ -218,9 +224,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       // spacer
                       const SizedBox(height: 10),
 
-                      PartsBuilder.buildTextField(onChangedCb: (val ) {  }, labelText: "Username".toUpperCase()),
+                      PartsBuilder.buildTextField(onChangedCb: (val ) {  }, labelText: "Username".toUpperCase(), controller: _emailTextEditController),
 
-                      PartsBuilder.buildTextField(onChangedCb: (val ) {  }, labelText: "Password".toUpperCase()),
+                      PartsBuilder.buildTextField(onChangedCb: (val ) {  }, labelText: "Password".toUpperCase(), isForPassword: true, controller: _passwordTextEditController),
 
                       const SizedBox(height: 5),
 
@@ -229,8 +235,24 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           ThemeBuilder.forest,
                           Colors.white,
                           "Login".toUpperCase(),
-                              () {},
+                              () async{
+
+                            await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
+                                email: _emailTextEditController.value.text,
+                                password: _passwordTextEditController.value.text)
+                            .then((value) => {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                      const Dashboard()))
+                            }).whenComplete(() => {
+
+                                }).onError((error, stackTrace) => reportError(error));
+                              },
                           false,
+                          SizedBox.shrink(),
                           MediaQuery.of(context).size.width,
                           50),
 
@@ -243,6 +265,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           "Continue with Apple".toUpperCase(),
                           () {},
                           false,
+                          SizedBox.shrink(),
                           MediaQuery.of(context).size.width,
                           50),
                       // spacer
@@ -255,6 +278,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           "Continue with Google".toUpperCase(),
                           () {},
                           false,
+                          SizedBox.shrink(),
                           MediaQuery.of(context).size.width,
                           50),
                       // spacer
@@ -281,7 +305,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       PartsBuilder.buildButton(16, ThemeBuilder.mint,
                           Colors.white, "Create Account".toUpperCase(), () {
                         stepper.moveForward();
-                      }, false, MediaQuery.of(context).size.width, 50)
+                      }, false, SizedBox.shrink(), MediaQuery.of(context).size.width, 50)
                     ],
                   )))),
           validation: () {
@@ -1116,7 +1140,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         .startScan(timeout: const Duration(seconds: 10));
                     future.whenComplete(() => {settings.setIsScanning(false)});
                     settings.setIsScanning(true);
-                  }, settings.isScanning && !settings.scanResultsFound,
+                  }, settings.isScanning && !settings.scanResultsFound, SizedBox.shrink(),
                       MediaQuery.of(context).size.width, 50, 12)),
 
               // Visibility(
@@ -1348,5 +1372,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         index: 0,
         actionOne: () {},
         actionTwo: () {});
+  }
+
+  reportError(Object? error) {
+    if (kDebugMode) {
+      print(error);
+    }
   }
 }

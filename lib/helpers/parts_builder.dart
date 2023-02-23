@@ -317,8 +317,8 @@ class PartsBuilder {
     );
   }
 
-  static buildButton(double textSize, Color bgClr, Color fgClr, String btnText, Function cb, bool showLoadingIcon,
-      [double? width, double? height, double? radius]) {
+  static buildButton(double textSize, Color bgClr, Color fgClr, String btnText, Function cb, bool showIcon, Widget icon,
+      [double? width, double? height, double? radius, ]) {
     return ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(radius ?? 5.0)),
         child: SizedBox(
@@ -336,8 +336,10 @@ class PartsBuilder {
                 ),
                 onPressed: () {cb();},
                 child:
-                showLoadingIcon ?
-                 const SpinKitThreeBounce(color: Colors.black54, size: 20,)
+                showIcon ?
+                 Row(children:[ Text( btnText,
+                   style: ThemeBuilder.textStyle(textSize, fgClr),
+                 ), icon])
                 : Text( btnText,
                   style: ThemeBuilder.textStyle(textSize, fgClr),
                 ))));

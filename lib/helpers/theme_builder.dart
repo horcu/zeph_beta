@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zeph_beta/style/palette.dart';
 
 class ThemeBuilder {
+
   static textStyle(double? size, Color? clr, [FontWeight? fw, FontStyle? fs]) {
     return GoogleFonts.raleway(
         fontWeight: fw ?? FontWeight.normal,
@@ -28,4 +29,9 @@ class ThemeBuilder {
   static get offwhite =>  Palette().offWhite;
 
   static get forest =>  Palette().forest;
+  static get black =>  Palette().black;
+  static get trueWhite => Palette().white;
+  static Color get lime => Palette().lime;
+
+
 }

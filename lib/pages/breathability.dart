@@ -207,6 +207,7 @@ class _BreathabilityState extends State<Breathability> with SingleTickerProvider
                         stepper.moveForward();
                       },
                       false,
+                      const SizedBox.shrink(),
                       MediaQuery.of(context).size.width,
                       50,
                       12),
@@ -278,6 +279,7 @@ class _BreathabilityState extends State<Breathability> with SingleTickerProvider
                         stepper.moveForward();
                           },
                       false,
+                      const SizedBox.shrink(),
                       MediaQuery.of(context).size.width,
                       50,
                       12),
@@ -372,6 +374,7 @@ class _BreathabilityState extends State<Breathability> with SingleTickerProvider
                         stepper.moveForward();
                           },
                       false,
+                      const SizedBox.shrink(),
                       MediaQuery.of(context).size.width,
                       50,
                       12),
@@ -421,6 +424,7 @@ class _BreathabilityState extends State<Breathability> with SingleTickerProvider
                         "Next".toUpperCase(),
                             (){},
                         false,
+                        const SizedBox.shrink(),
                         MediaQuery.of(context).size.width,
                         50,
                         12),

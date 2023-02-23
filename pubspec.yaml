@@ -52,6 +52,10 @@ dependencies:
   google_sign_in: ^6.0.0
   firebase_auth: ^4.2.8
   firebase_core: ^2.6.1
+  bottom_navy_bar: ^6.0.0
+  video_player: ^2.5.1
+  geocoding: ^2.0.5
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +81,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/videos/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

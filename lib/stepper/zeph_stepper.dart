@@ -1,11 +1,7 @@
 library cool_stepper;
-
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:zeph_beta/helpers/parts_builder.dart';
-import 'package:zeph_beta/helpers/theme_builder.dart';
 import 'package:zeph_beta/stepper/widgets/zeph_stepper_view.dart';
-import '../state/onboarding_stepper_state.dart';
 import 'models/zeph_step.dart';
 import 'models/zeph_stepper_config.dart';
 
@@ -95,19 +91,7 @@ class ZephStepper extends StatelessWidget {
     } else {
       /// [showErrorSnackbar] is true, Show error snackbar rule
       if (showErrorSnackbar) {
-        final flush = Flushbar(
-          message: await validation,
-          flushbarStyle: FlushbarStyle.FLOATING,
-          margin: const EdgeInsets.all(8.0),
-          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          icon: const Icon(
-            Icons.info_outline,
-            size: 28.0,
-          ),
-          duration: const Duration(seconds: 2),
-        );
-        // final snackBar = SnackBar(content: Text(validation));
-        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
       }
     }
   }
@@ -202,7 +186,7 @@ class ZephStepper extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         const Spacer(),
-        PartsBuilder.buildButton(20, Colors.yellow, Colors.green, "Action one",  (){}, false)
+        PartsBuilder.buildButton(20, Colors.yellow, Colors.green, "Action one",  (){}, false, const SizedBox.shrink())
       ],
     );
 
@@ -210,7 +194,7 @@ class ZephStepper extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         const Spacer(),
-        PartsBuilder.buildButton(20, Colors.yellow, Colors.green, "Action two",  (){},false)
+        PartsBuilder.buildButton(20, Colors.yellow, Colors.green, "Action two",  (){},false, const SizedBox.shrink())
       ],
     );
 

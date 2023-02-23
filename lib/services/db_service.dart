@@ -18,7 +18,7 @@ class DbService {
 
   Future<void> saveOnboardingData(ZephUser user, successCb, errorCb) async{
     String? id= FirebaseAuth.instance.currentUser?.uid;
-      db.collection("UserInformation")
+      await db.collection("UserInformation")
         .doc(id)
         .set(user.toUserInfoJson()).then((value) => successCb(value))
         .onError((e, _) => errorCb(e));
@@ -31,5 +31,13 @@ class DbService {
         //.path("latestBreathabilityScore")
        // .set(user.toUserInfoJson()).then((value) => successCb(value))
        // .onError((e, _) => errorCb(e));
+  }
+
+  Future<void> getUserData(successCb, errorCb) async{
+    String? id= FirebaseAuth.instance.currentUser?.uid;
+    await db.collection("UserInformation")
+        .doc(id)
+        .get().then((value) => successCb(value))
+        .onError((e, _) => errorCb(e));
   }
 }

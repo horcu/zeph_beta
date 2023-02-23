@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:zeph_beta/models/fitness.dart';
 import 'package:zeph_beta/models/personal_data.dart';
 import '../enums/PrimaryGoal.dart';
 import '../enums/gender.dart';
+import 'UserInformation.dart';
 import 'credentials.dart';
 
 class ZephUser  {
